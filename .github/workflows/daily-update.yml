@@ -1,0 +1,30 @@
+name: Daily Auto Update
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Runs every day at 6:00 AM UTC (11:30 AM IST)
+  workflow_dispatch:       # Also allows manual trigger from GitHub Actions tab
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update activity log
+        run: |
+          mkdir -p .github
+          echo "Last auto-updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" > .github/last-updated.txt
+          echo "Trust Ledger — Reusable KYC Platform | Lloyds Reboot Hackathon 2026 Winner" >> .github/last-updated.txt
+
+      - name: Commit and push
+        run: |
+          git config user.name "Lakshy Gupta"
+          git config user.email "lakshygupta123@gmail.com"
+          git add .github/last-updated.txt
+          git diff --staged --quiet || git commit -m "chore: daily activity update [$(date -u '+%Y-%m-%d')]"
+          git push
