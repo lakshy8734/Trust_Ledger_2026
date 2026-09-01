@@ -1,0 +1,19 @@
+# Go build artifacts
+*.exe
+*.test
+*.out
+coverage.out
+
+# Go vendor directory (use go mod download instead)
+vendor/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
